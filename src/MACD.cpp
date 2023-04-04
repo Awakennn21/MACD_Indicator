@@ -24,7 +24,7 @@ public:
     {
         m_MACD = std::vector<double>(26, 0);
         m_Signal = std::vector<double>(35, 0);
-        ParseInputFile("EtheriumPrices.txt");
+        ParseInputFile("Res/EtheriumPrices.txt");
         GenerateMACD();
         GenerateSignal();
         CreateOutputFiles();
@@ -86,27 +86,30 @@ private:
     void ParseInputFile(const std::string& path)
     {
         std::ifstream in(path);
-        std::string Date, Open, High, Low;
-
-        while (in.good())
+        if (in.is_open())
         {
-            in >> Date >> Open >> High >> Low;
-            Day day(Date, (double)((std::stoi(High) + (std::stoi(Low)) / 2)));
-            m_PricesData.push_back(day);
+            std::string Date, Open, High, Low;
+
+            while (in.good())
+            {
+                in >> Date >> Open >> High >> Low;
+                Day day(Date, (double)((std::stoi(High) + (std::stoi(Low)) / 2)));
+                m_PricesData.push_back(day);
+            }
+            in.close();
         }
-        in.close();
        
     }
 
     void CreateOutputFiles()
     {
-        std::ofstream out("MACD_Signal_Values.txt");
+        std::ofstream out("OutputFiles/MACD_Signal_Values.txt");
         for (int i = 0; i < 1000; i++)
         {
             out << m_PricesData[i].Date << " " << m_MACD[i] << " " << m_Signal[i] << std::endl;                        
         }
         out.close();
-        out.open("Etherium_Values.txt");
+        out.open("OutputFiles/Etherium_Values.txt");
         for (int i = 0; i < 1000; i++)
         {
             out << m_PricesData[i].AvgPrice << std::endl;

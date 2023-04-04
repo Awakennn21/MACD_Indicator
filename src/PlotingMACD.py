@@ -5,7 +5,7 @@ dates = []
 macd_values = []
 signal_values = []
 
-with open("C:/Users/Hubert/Desktop/Projekty PP/MACD/MACD_Signal_Values.txt") as f:
+with open("C:/Users/Hubert/Desktop/Projekty PP/MACD/OutputFiles/MACD_Signal_Values.txt") as f:
     for line in f:
         values = line.split()
         if "nan" in values:
