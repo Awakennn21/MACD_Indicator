@@ -35,20 +35,26 @@ public:
         constexpr double InitialBudget = 1000.0;
         double TotalBudget = InitialBudget;
         double CurrentEtheriumWalet = 0.0;
+        int TransactionsCount = 0;
         for (int i = 36; i < 1000; i++)
         {
             if (m_Signal[i - 1] > m_MACD[i - 1] && m_Signal[i] < m_MACD[i])
             {
-                CurrentEtheriumWalet = TotalBudget / m_PricesData[i].AvgPrice;
+                CurrentEtheriumWalet = TotalBudget / m_PricesData[i-1].AvgPrice;
                 TotalBudget = 0.0;
+                TransactionsCount++;
             }
             else if (m_Signal[i - 1] < m_MACD[i - 1] && m_Signal[i] > m_MACD[i])
             {
-                TotalBudget += m_PricesData[i].AvgPrice * CurrentEtheriumWalet;
+                TotalBudget += m_PricesData[i-1].AvgPrice * CurrentEtheriumWalet;
                 CurrentEtheriumWalet = 0.0;
             }
         }
-
+        if (CurrentEtheriumWalet > 0)
+        {
+            TotalBudget += m_PricesData[m_PricesData.size() - 1].AvgPrice * CurrentEtheriumWalet;
+        }
+        std::cout << "Number of transactions:" << TransactionsCount << std::endl;
         return TotalBudget - InitialBudget;
     }
 

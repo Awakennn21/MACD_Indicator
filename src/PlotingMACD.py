@@ -29,14 +29,11 @@ ax.set_ylabel("Value")
 ax.set_title("MACD and Signal Values")
 ax.legend()
 
-
-num_ticks = 100  
+num_ticks = 100 
 tick_step = len(dates) // num_ticks
 if tick_step < 1:
     tick_step = 1
 tick_indices = np.arange(0, len(dates), tick_step)
 ax.set_xticks(tick_indices)
 ax.set_xticklabels([dates[i] for i in tick_indices], rotation=45, ha='right')
-
-
 plt.show()
